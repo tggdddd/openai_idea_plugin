@@ -1,0 +1,53 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>icu.stopit</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>OpenAI 内置插件</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="15014586591@139.com" url="https://stopit.icu">Demo</vendor>
+
+    <!--nes: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+        OpenAI的内置插件，具有修改代码，聊天、生成图片、编辑文字、编辑图片、查找相似图片等功能。大部分api接口都能够使用，支持自定义请求参数，需要自备accessKey。
+        </<br><em>
+            使用说明：</em>
+
+            br>
+        <li>1.请求会消耗不少的时间，请求未结束发送按钮不可用。</li></<br>
+        <li>2.使用修复bug功能时，可以在选择的代码下方继续码字，但请不要在上方修改，仅是定位字符的坐标进行修改。</li>
+        ]]>
+        <![CDATA[OpenAI's built-in plugins have functions such as modifying code, chatting, generating pictures, editing text, editing pictures, and finding similar pictures. Most API interfaces can be used, and custom request parameters are supported. An accessKey is required for self-prepared.
+        </br><em>Ins
+        ions for use:</em>
+        </br>
+
+
+        <li>1. Requests will take a lot of time, and the Send button will not be available until the request is finished.</li></br><li>2. When using the bug fixing feature, you can continue to type below the selected code, but please do not modify the code above. Only the coordinates of the characters are modified.</li>
+    ]]>
+    </description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable instance="icu.stopit.demo.View.Setting.SettingPanel"/>
+        <toolWindow id="OpenAI" secondary="true" anchor="right" factoryClass="icu.stopit.demo.MyToolWindowFactory"/>
+    </extensions>
+    <actions>
+        <action id="QuickQuestionID" class="icu.stopit.demo.QuickQuestion" text="解释代码"
+                description="询问这段代码的意思">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+        <action id="QuickQuestionFixID" class="icu.stopit.demo.QuickQuestionFix" text="修复BUG"
+                description="询问代码BUG并粘贴回复">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
