@@ -37,8 +37,10 @@ public class TVIew extends JPanel {
     static final String IMAGE_VARIATION = "相似图片";
     static final String IAMGE_EDIT = "图片编辑";
     static final String TEXT_EDIT = "文本编辑";
-    static String token = System.getenv("OPENAI_TOKEN");
-    static OpenAiService service = new OpenAiService(token, Duration.ofMinutes(10));
+
+    public OpenAiService getService(){
+        return new OpenAiService(Utils.properties.getProperty("OPENAI_TOKEN"), Duration.ofMinutes(10));
+    }
     static String TEXT_GENERATION = "文本回复";
     static String PICTURE_GENERATION = "图片生成";
     public final Object object = new Object();
@@ -288,7 +290,7 @@ class ActionThread extends Thread {
                             .user(Utils.properties.getProperty("USER"))
                             .n(Integer.valueOf(Utils.properties.getProperty("N")))
                             .build();
-                    tvIew.service.createCompletion(completionRequest).getChoices().forEach(t ->
+                    tvIew.getService().createCompletion(completionRequest).getChoices().forEach(t ->
                             stringBuilder
                                     .append(t.getText())
                                     .append("\n")
@@ -307,7 +309,7 @@ class ActionThread extends Thread {
                             .temperature(Double.valueOf(Utils.properties.getProperty("TEMPERATURE")))
                             .n(Integer.valueOf(Utils.properties.getProperty("N")))
                             .build();
-                    tvIew.service.createEdit(editRequest).getChoices().forEach(t -> stringBuilder
+                    tvIew.getService().createEdit(editRequest).getChoices().forEach(t -> stringBuilder
                             .append(t.getText())
                             .append("\n")
                     );
@@ -324,7 +326,7 @@ class ActionThread extends Thread {
                             .n(Integer.valueOf(Utils.properties.getProperty("N")))
                             .build();
 
-                    List<Image> images = tvIew.service.createImage(createImageRequest).getData();
+                    List<Image> images = tvIew.getService().createImage(createImageRequest).getData();
                     if (images != null) {
                         tvIew.showImageList(images);
                     }
@@ -337,7 +339,7 @@ class ActionThread extends Thread {
                             .size(Utils.properties.getProperty("SIZE"))
                             .n(Integer.valueOf(Utils.properties.getProperty("N")))
                             .build();
-                    List<Image> images = tvIew.service.createImageVariation(createImageVariationRequest, tvIew.uploadImageFile).getData();
+                    List<Image> images = tvIew.getService().createImageVariation(createImageVariationRequest, tvIew.uploadImageFile).getData();
                     if (images != null) {
                         tvIew.showImageList(images);
                     }
@@ -354,7 +356,7 @@ class ActionThread extends Thread {
                             .prompt(text)
                             .n(Integer.valueOf(Utils.properties.getProperty("N")))
                             .build();
-                    List<Image> images = tvIew.service.createImageEdit(createImageEditRequest, tvIew.uploadImageFile, tvIew.upLoadImageMask).getData();
+                    List<Image> images = tvIew.getService().createImageEdit(createImageEditRequest, tvIew.uploadImageFile, tvIew.upLoadImageMask).getData();
                     if (images != null) {
                         tvIew.showImageList(images);
                     }
